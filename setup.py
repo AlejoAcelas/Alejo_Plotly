@@ -1,3 +1,3 @@
 from setuptools import find_packages, setup
 
-setup(name='alejo-plotly', packages=find_packages())
+setup(name='alejo_plotly', packages=find_packages())

@@ -52,8 +52,8 @@ def histogram(x: ARRAY_TYPE, **kwargs) -> Optional[Figure]:
 def create_generic_plot_fig(plot_fn: Callable[..., Figure], **kwargs) -> Tuple[Figure, bool]:
     plot_args = PlotArgs(plot_fn, **kwargs)
     
-    df, broadcasted_shape = broadcast_to_df(plot_args.array_args) # , plot_args.custom_args.array_value_names
-    df = add_labels_to_df(df, broadcasted_shape, plot_args.custom_args.dim_labels, plot_args.custom_args.value_names)
+    df, broadcasted_shape = broadcast_to_df(plot_args.array_args) # , plot_args.custom_args.array_value_labels
+    df = add_labels_to_df(df, broadcasted_shape, plot_args.custom_args.dim_labels, plot_args.custom_args.value_labels)
     plot_args.apply_args_from_df(df)
 
     fig = plot_fn(df, **plot_args.data_args)
@@ -67,11 +67,12 @@ def broadcast_to_df(array_args: Dict[str, ARRAY_TYPE], ) -> Tuple[pd.DataFrame, 
     broadcasted_shape = broadcasted_arrays[0].shape
     return df, broadcasted_shape
 
-def add_labels_to_df(df: pd.DataFrame,
-                            broadcasted_array_shape: Tuple[int, ...],
-                            dim_labels: List[str],
-                            value_names: Optional[Dict[str, Any]], 
-                            ) -> pd.DataFrame:
+def add_labels_to_df(
+        df: pd.DataFrame,
+        broadcasted_array_shape: Tuple[int, ...],
+        dim_labels: List[str],
+        value_labels: Optional[Dict[str, Any]], 
+    ) -> pd.DataFrame:
     labels = [[i for i in range(broadcasted_array_shape[dim])] for dim in range(len(broadcasted_array_shape))]
     dim_labels = dim_labels[:len(broadcasted_array_shape)]
     labels_cartesian_product = list(zip(*product(*labels)))
@@ -79,12 +80,12 @@ def add_labels_to_df(df: pd.DataFrame,
     df_labels = pd.DataFrame(data=labels_cartesian_product, index=dim_labels).T
     df = pd.concat([df_labels, df], axis=1)
     df = df.reset_index()
-    df = apply_value_names_to_df(df, value_names)
+    df = apply_value_labels_to_df(df, value_labels)
     return df 
 
-def apply_value_names_to_df(df: pd.DataFrame, value_names: Optional[Dict[str, Any]]) -> pd.DataFrame:
-    for column_name, value_map in value_names.items():
-        assert column_name in df.columns, f'Column name {column_name} from value_names arg not found in dataframe.'
+def apply_value_labels_to_df(df: pd.DataFrame, value_labels: Optional[Dict[str, Any]]) -> pd.DataFrame:
+    for column_name, value_map in value_labels.items():
+        assert column_name in df.columns, f'Column name {column_name} from value_labels arg not found in dataframe.'
         if isinstance(value_map, (list, dict)):
             try:
                 df[column_name] = df[column_name].map(lambda x: value_map[x])
@@ -208,5 +209,5 @@ class PlotArgs:
 @dataclass
 class CustomArgs:
     dim_labels: List[str] = field(default_factory=lambda: DEFAULT_DIM_LABELS)
-    value_names: Dict[str, Any] = field(default_factory=dict)
+    value_labels: Dict[str, Any] = field(default_factory=dict)
     return_fig: bool = False
