@@ -1,3 +1,17 @@
 # Alejo Plotly
 
-Alejo Plotly is a light wrapper on top of Plotly Express designed to handle multidimensional arrays and tensors. It works by broadcasting its array arguments and then flattening them into a long-shape Pandas DataFrame. It's specially useful for aplications in ML interpretability where you need to quickly parse and understand multidimensional arrays. See the [demo](https://nbviewer.org/github/AlejoAcelas/Alejo_Plotly/blob/main/demo.ipynb) for example plots and usage.
+Alejo Plotly simplifies visualization of multidimensional data like arrays and tensors using Plotly Express. It automatically handles broadcasting and flattening to create intuitive interactive plots.
+
+## Key Features
+
+* Easily visualize ML arrays and tensors
+* Handles broadcasting and flattening
+* Creates Plotly Express plots
+* Interactive visualization
+* Ideal for ML interpretability
+* Lightweight Python library
+* Usage demo and examples included
+
+Alejo Plotly builds on Plotly Express to enable fast, flexible visualization of complex multidimensional data. By handling the tricky details of broadcasting and flattening, it makes interpretation and analysis easier.  
+
+![Example Scatter Plot](assets/example_scatter.svg)
