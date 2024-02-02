@@ -14,4 +14,4 @@ Alejo Plotly simplifies visualization of multidimensional data like arrays and t
 
 Alejo Plotly builds on Plotly Express to enable fast, flexible visualization of complex multidimensional data. By handling the tricky details of broadcasting and flattening, it makes interpretation and analysis easier.  
 
-![Example Scatter Plot](assets/example_scatter.svg)
+![Example Scatter Plot](assets/example_scatter.png)
